@@ -67,6 +67,7 @@ const SelectStock = () => {
         }
 
         try {
+            await deleteStocks()
             const body = {
                 tickers: userStockPicks,
                 dataSelection: Array.from(userDataSelection),
@@ -84,9 +85,9 @@ const SelectStock = () => {
         }
     };
 
-    const deleteStocks = () => {
+    const deleteStocks = async () => {
         try {
-            fetch(`http://localhost:8080/stocks`, {
+            await fetch(`http://localhost:8080/stocks`, {
                 method: "DELETE",
             });
         } catch (error) {
