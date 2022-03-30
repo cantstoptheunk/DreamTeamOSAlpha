@@ -8,12 +8,13 @@ import SnackbarError from "./util/SnackbarError";
 import Grid from "@mui/material/Grid";
 import { useNavigate } from "react-router-dom";
 
-const MAX_LIMIT = 3;
+const MAX_LIMIT = 2;
 
 const SelectStock = () => {
     const [userStockPicks, setUserStockPicks] = useState<string[]>([]);
     const [userDataSelection, setDataSelection] = useState(new Set());
     const [openInvalidTickerSnackbar, setOpenInvalidTickerSnackbar] = useState(false);
+    const [openInvalidDataSelection, setOpenInvalidDataSelection] = useState(false);
     const [openMaxLimitSnackbar, setOpenMaxLimitSnackbar] = useState(false);
     const [openInvalidSubmission, setOpenInvalidSubmission] = useState(false);
     const [inputText, setInputText] = useState("");
@@ -50,6 +51,7 @@ const SelectStock = () => {
         setOpenMaxLimitSnackbar(false);
         setOpenInvalidSubmission(false);
         setOpenInvalidTickerSnackbar(false);
+        setOpenInvalidDataSelection(false);
 
         if (reason === "clickaway") {
             return;
@@ -94,21 +96,26 @@ const SelectStock = () => {
 
     const flipDataSelection = (stateName: string, stateVar: boolean, setStateFunction: Function) => {
         // If true then it will be false so remove from set, otherwise add to set
-        stateVar ? userDataSelection.delete(stateName) : userDataSelection.add(stateName);
+        if (stateVar) {
+            userDataSelection.delete(stateName);
+        } else {
+            userDataSelection.size >= 2 ? setOpenInvalidDataSelection(true) : userDataSelection.add(stateName);
+        }
+
         setDataSelection(userDataSelection);
         setStateFunction(!stateVar);
     };
 
     return (
         <div>
-            <Grid container >
+            <Grid container>
                 <Grid item xs={12}>
                     <h1>Please select up to {MAX_LIMIT} potential valid stock tickers</h1>
                     <br />
                 </Grid>
                 <Grid item xs={12}>
                     <TextField label="Ticker Symbol" variant="outlined" value={inputText} onChange={inputTextChange} />
-                    <Button style={{height: '100%',}} variant="contained" onClick={addStockToList}>
+                    <Button style={{ height: "100%" }} variant="contained" onClick={addStockToList}>
                         Add
                     </Button>
                 </Grid>
@@ -122,12 +129,14 @@ const SelectStock = () => {
                         onChange={flipDataSelection}
                         stateVar={isDailyChecked}
                         stateName="daily"
+                        disabled={!isDailyChecked && userDataSelection.size >= 2}
                         setStateFunction={setIsDailyChecked}
                         label="Daily"
                     />
                     <FormControlLabelCustom
                         onChange={flipDataSelection}
                         stateVar={isWeeklyChecked}
+                        disabled={!isWeeklyChecked && userDataSelection.size >= 2}
                         stateName="weekly"
                         setStateFunction={setIsWeeklyChecked}
                         label="Weekly"
@@ -135,6 +144,7 @@ const SelectStock = () => {
                     <FormControlLabelCustom
                         onChange={flipDataSelection}
                         stateVar={isIncomeStatementChecked}
+                        disabled={!isIncomeStatementChecked && userDataSelection.size >= 2}
                         stateName="income"
                         setStateFunction={setIsIncomeStatementChecked}
                         label="Income Statement"
@@ -142,6 +152,7 @@ const SelectStock = () => {
                     <FormControlLabelCustom
                         onChange={flipDataSelection}
                         stateVar={isEarningsChecked}
+                        disabled={!isEarningsChecked && userDataSelection.size >= 2}
                         stateName="earnings"
                         setStateFunction={setIsEarningsChecked}
                         label="Earnings"
@@ -166,6 +177,11 @@ const SelectStock = () => {
                 </Grid>
             </Grid>
             <SnackbarError
+                open={openInvalidDataSelection}
+                close={closeSnackbar}
+                message={"You can only pick a maximum of two data selections"}
+            />
+            <SnackbarError
                 open={openInvalidTickerSnackbar}
                 close={closeSnackbar}
                 message={"Please enter a valid stock ticker"}
@@ -173,7 +189,7 @@ const SelectStock = () => {
             <SnackbarError
                 open={openMaxLimitSnackbar}
                 close={closeSnackbar}
-                message={"Max Limit of 3 Tickers Reached"}
+                message={`Max Limit of ${MAX_LIMIT} Tickers Reached`}
             />
             <SnackbarError
                 open={openInvalidSubmission}

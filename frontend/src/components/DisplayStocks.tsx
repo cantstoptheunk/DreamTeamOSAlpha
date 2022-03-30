@@ -67,8 +67,6 @@ const DisplayStocks = () => {
         fetchUserStockData();
     }, []);
 
-    const sendEmailClick = () => {};
-
     return (
         <div>
             <Button
@@ -78,7 +76,6 @@ const DisplayStocks = () => {
             >
                 Go Back
             </Button>
-            <Button onClick={sendEmailClick}>Send Email</Button>
             {userStockData && accordians}
         </div>
     );
