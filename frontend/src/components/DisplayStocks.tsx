@@ -81,14 +81,14 @@ const DisplayStocks = () => {
     };
 
     const sendEmailClick = async () => {
-        await fetch(`http://localhost:8080/email`, {
-            method: "POST",
-        });
-        <Snackbar autoHideDuration={1500} open={openEmailSnackBar} onClose={closeSnackbar}>
-            <Alert onClose={closeSnackbar} severity="success" sx={{ width: "100%" }}>
-                Email Successfully Sent!
-            </Alert>
-        </Snackbar>;
+        try {
+            await fetch(`http://localhost:8080/email`, {
+                method: "POST",
+            });
+            setOpenEmailSnackBar(true)
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -102,6 +102,11 @@ const DisplayStocks = () => {
             </Button>
             <Button onClick={sendEmailClick}>Send Email</Button>
             {userStockData && accordians}
+            <Snackbar autoHideDuration={1500} open={openEmailSnackBar} onClose={closeSnackbar}>
+                <Alert onClose={closeSnackbar} severity="success" sx={{ width: "100%" }}>
+                    Email Successfully Sent!
+                </Alert>
+            </Snackbar>
         </div>
     );
 };
