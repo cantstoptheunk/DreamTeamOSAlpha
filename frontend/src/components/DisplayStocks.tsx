@@ -10,7 +10,8 @@ import { v4 as uuidv4 } from "uuid";
 
 const DisplayStocks = () => {
     const [userStockData, setUserStockData] = useState<any>();
-    const [accordians, setAccordians] = useState<any>()
+    const [accordians, setAccordians] = useState<any>();
+    const navigate = useNavigate();
 
     const createAccordians = async (fetchedStockData: any) => {
         const models = fetchedStockData.stockdata;
@@ -45,36 +46,36 @@ const DisplayStocks = () => {
         return <div>{nestedComponents}</div>;
     };
 
-    const fetchUserStockData = async () => {
-        try {
-            const res = await fetch(`http://localhost:8080/stocks`, {
-                method: "GET"
-            });
-            const json = await res.json();
-            if (!json || json.length == 0) {
-                navigate("/");
-            }
-            setUserStockData(json);
-            const accoridanComponents = await createAccordians(json)
-            setAccordians(accoridanComponents)
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
     useEffect(() => {
+        const fetchUserStockData = async () => {
+            try {
+                const res = await fetch(`http://localhost:8080/stocks`, {
+                    method: "GET",
+                });
+                const json = await res.json();
+                if (!json || json.length === 0) {
+                    navigate("/");
+                }
+                setUserStockData(json);
+                const accoridanComponents = await createAccordians(json);
+                setAccordians(accoridanComponents);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
         fetchUserStockData();
     }, []);
 
-    const navigate = useNavigate();
-
-    const sendEmailClick = () => {
-        
-    }
+    const sendEmailClick = () => {};
 
     return (
         <div>
-            <Button onClick={() => {navigate("/");}}>
+            <Button
+                onClick={() => {
+                    navigate("/");
+                }}
+            >
                 Go Back
             </Button>
             <Button onClick={sendEmailClick}>Send Email</Button>

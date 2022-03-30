@@ -11,7 +11,7 @@ type FormControlLabelType = {
     label: string
 }
 
-const FormControlLabelCustom = (props: any) => {
+const FormControlLabelCustom = (props: FormControlLabelType) => {
     return (
         <FormControlLabel
             control={

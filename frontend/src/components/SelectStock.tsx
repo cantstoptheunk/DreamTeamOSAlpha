@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import VALID_TICKERS from "./util/Constants";
 import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import FormControlLabelCustom from "./util/FormControlLabelCustom";
 import SnackbarError from "./util/SnackbarError";
 import Grid from "@mui/material/Grid";
@@ -61,7 +59,7 @@ const SelectStock = () => {
     };
 
     const sumbitStocks = async () => {
-        if (userDataSelection.size == 0 || userStockPicks.length == 0) {
+        if (userDataSelection.size === 0 || userStockPicks.length === 0) {
             setOpenInvalidSubmission(true);
             return;
         }
@@ -71,7 +69,7 @@ const SelectStock = () => {
                 tickers: userStockPicks,
                 dataSelection: Array.from(userDataSelection),
             };
-            const res = await fetch(`http://localhost:8080/stocks`, {
+            await fetch(`http://localhost:8080/stocks`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
