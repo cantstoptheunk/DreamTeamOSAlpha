@@ -1,0 +1,44 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Express, TypeScript, Sequelize, Postgres",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc & node .",
+    "dev": "tsc --project ./ && nodemon -r ./src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/cantstoptheunk/DreamTeamOSAlphaProject.git"
+  },
+  "author": "Ryunki Song",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cantstoptheunk/DreamTeamOSAlphaProject/issues"
+  },
+  "homepage": "https://github.com/cantstoptheunk/DreamTeamOSAlphaProject#readme",
+  "dependencies": {
+    "@sendgrid/mail": "^7.6.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "node-fetch": "^3.2.3",
+    "pg": "^8.7.3",
+    "sequelize": "^6.17.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/node": "^17.0.23",
+    "@typescript-eslint/eslint-plugin": "^5.17.0",
+    "@typescript-eslint/parser": "^5.17.0",
+    "eslint": "^8.12.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.29.4",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.6.1",
+    "typescript": "^4.6.3"
+  }
+}

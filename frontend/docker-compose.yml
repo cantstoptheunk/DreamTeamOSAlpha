@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  react:
+    build: .
+    image: dreamteam_frontend
+    container_name: dreamteam_frontend
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    environment:
+      - NODE_ENV=development
+    volumes: 
+      - .:/dreamteam/frontend

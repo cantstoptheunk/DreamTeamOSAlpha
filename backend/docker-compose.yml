@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  dreamteam_express:
+    build: .
+    image: dreamteam_backend
+    container_name: dreamteam_backend
+    ports:
+      - "8080:8080"
+    stdin_open: true
+    environment:
+      - EXTERNAL_PORT=8080
+    env_file:
+      - .env
+    volumes: 
+      - .:/dreamteam/backend
+    depends_on:
+      - dreamteam_db
+  
+  dreamteam_db:
+    image: "postgres:12"
+    container_name: dreamteam_db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_DB=${PG_DATABASE}
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db: {}
