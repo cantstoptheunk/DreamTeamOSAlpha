@@ -4,8 +4,7 @@ import dotenv from 'dotenv'
 import SequelizeConnection from './db/SequelizeConnection';
 import bodyParser from 'body-parser'
 import StockDataRouter from './controller/StockDataController';
-import { fetchEarningsData, fetchPriceData } from './alphavantage/AlphavantageApi'
-import { DAILY, DAILY_URL } from './utils/constants';
+import EmailRouter from './controller/EmailController';
 
 const app = express()
 app.use(bodyParser.json());
@@ -22,6 +21,7 @@ app.get('/', (req, res) => {
     res.status(200).send("Service is Healthy!")
 })
 app.use('/stocks', StockDataRouter)
+app.use('/email', EmailRouter)
 
 const initializeService = async () => {
     try {

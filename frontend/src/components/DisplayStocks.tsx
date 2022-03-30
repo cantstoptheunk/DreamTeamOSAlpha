@@ -7,10 +7,13 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { v4 as uuidv4 } from "uuid";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const DisplayStocks = () => {
     const [userStockData, setUserStockData] = useState<any>();
     const [accordians, setAccordians] = useState<any>();
+    const [openEmailSnackBar, setOpenEmailSnackBar] = useState<any>();
     const navigate = useNavigate();
 
     const createAccordians = async (fetchedStockData: any) => {
@@ -67,6 +70,27 @@ const DisplayStocks = () => {
         fetchUserStockData();
     }, []);
 
+    const closeSnackbar = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        setOpenEmailSnackBar(false);
+
+        if (reason === "clickaway") {
+            return;
+        }
+
+        return true;
+    };
+
+    const sendEmailClick = async () => {
+        await fetch(`http://localhost:8080/email`, {
+            method: "POST",
+        });
+        <Snackbar autoHideDuration={1500} open={openEmailSnackBar} onClose={closeSnackbar}>
+            <Alert onClose={closeSnackbar} severity="success" sx={{ width: "100%" }}>
+                Email Successfully Sent!
+            </Alert>
+        </Snackbar>;
+    };
+
     return (
         <div>
             <Button
@@ -76,6 +100,7 @@ const DisplayStocks = () => {
             >
                 Go Back
             </Button>
+            <Button onClick={sendEmailClick}>Send Email</Button>
             {userStockData && accordians}
         </div>
     );

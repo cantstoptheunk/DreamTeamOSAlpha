@@ -1,6 +1,6 @@
 import StockData from '../db/models/StockData'
 import { Router } from 'express';
-import { processStockDataModelRequest, StockDataModelRequestType, StockDataModelResponseType } from '../stockdata/StockDataHandler';
+import { processStockDataModelRequest, StockDataModelRequestType } from '../stockdata/StockDataHandler';
 /**
  * CRUD CONTROLLERS
  */
